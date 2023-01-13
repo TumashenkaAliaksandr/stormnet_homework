@@ -1,54 +1,87 @@
-
-class Army:
-    def __init__(self):
-        self.units = []
-
-    def add_units(self, unit, count):
-        for i in range(count):
-            self.units.append(unit)
-
-
-class Battle:
-    @staticmethod
-    def fight(army, enemy_army):
-        for unit in army.units:
-            while unit.is_alive:
-                for enemy_unit in enemy_army.units:
-                    fight(unit, enemy_unit)
-
-
 class Warrior:
-    health = 50
-    attack = 5
-    is_alive = True
-
+    def __init__(self):
+        self.health = 50
+        self.attack = 5
+        self.is_alive = True
 
 class Knight(Warrior):
-    attack = 7
+    def __init__(self):
+        self.health = 50
+        self.attack = 7
+        self.is_alive = True
 
 
 def fight(unit_1, unit_2):
     while True:
         unit_2.health -= unit_1.attack
-        if unit_2.health <= 0 and unit_1.health > 0:
+        if unit_2.health < 0:
             unit_2.is_alive = False
-            return unit_1.is_alive
-
+            return True
         unit_1.health -= unit_2.attack
-        if unit_1.health <= 0 and unit_2.health > 0:
+        if unit_1.health < 0:
             unit_1.is_alive = False
-            return unit_1.is_alive
+            return False
+
+class Army:
+    def __init__(self):
+        self.army = []
+
+    def add_units(self, unit, count):
+        for i in range(count):
+
+            self.army.append(unit())
+
+class Battle():
+
+    def fight(self, army_1, army_2):
+        self.i = 0
+        self.j = 0
+        while True:
+            army_2.army[self.j].health -= army_1.army[self.i].attack
+            if army_2.army[self.j].health < 0:
+                army_2.army[self.j].is_alive = False
+
+                if self.j + 1 == len(army_2.army):
+                    return True
+                else:
+                    self.j += 1
+                    continue
+
+            army_1.army[self.i].health -= army_2.army[self.j].attack
+            if army_1.army[self.i].health < 0:
+                army_1.army[self.i].is_alive = False
+
+                if self.i + 1 == len(army_1.army):
+                    return False
+                else:
+                    self.i += 1
+                    continue
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
-    # These "asserts" using only for self-checking and not necessary for auto-testing
+    #These "asserts" using only for self-checking and not necessary for auto-testing
 
-    # fight tests
     chuck = Warrior()
     bruce = Warrior()
     carl = Knight()
     dave = Warrior()
     mark = Warrior()
+
+    # print(fight(chuck, bruce))
+    # print(fight(dave, carl))
+    # print(chuck.is_alive)
+    # print(bruce.is_alive)
+    # print(carl.is_alive)
+    # print(dave.is_alive)
+    # print(fight(carl, mark))
+    # print(carl.is_alive)
 
     assert fight(chuck, bruce) == True
     assert fight(dave, carl) == False
@@ -58,6 +91,8 @@ if __name__ == '__main__':
     assert dave.is_alive == False
     assert fight(carl, mark) == False
     assert carl.is_alive == False
+
+    print("Coding complete? Let's try tests!")
 
     # battle tests
     my_army = Army()
@@ -75,7 +110,9 @@ if __name__ == '__main__':
 
     battle = Battle()
 
+    print(enemy_army.army)
+    print(my_army.army)
+    print(army_3.army)
+    print(army_4.army)
     assert battle.fight(my_army, enemy_army) == True
     assert battle.fight(army_3, army_4) == False
-    print("Coding complete? Let's try tests!")
-
